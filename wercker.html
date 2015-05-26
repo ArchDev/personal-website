@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Play framework continuous integration with Wercker.</title>
+	<meta charset="utf-8">
+	<meta name="author" content="archdev.me">
+	<meta name="description" content="Most developer does not think about time that they spend on testing/deployment process. I hope that after reading of this article, you will have more free time for coding, not for deploy. This information will be useful for developers that works on projects with small iterations and frequent releases."/>
+	<meta name="keywords" content="ci play framework, wercker play framework, deploy play 2 framework, wercker.yml play framework">
+	 <link rel="icon" type="img/ico" href="img/favicon.ico">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+
+	<header>
+		<div class="logo">
+			<a href="/index.html"><img src="img/logo.png" title="Arthur Kushka" alt="Arthur Kushka"/></a>
+		</div><!-- end logo -->
+
+		<div id="menu_icon"></div>
+		<nav>
+			<ul>
+				<li><a href="/index.html">Blog</a></li>
+				<li><a href="/about.html">About me</a></li>
+				<li><a href="/cv.pdf">Download CV</a></li>
+			</ul>
+		</nav><!-- end navigation menu -->
+
+		<div class="footer clearfix">
+			<ul class="social clearfix">
+				<li><a href="https://twitter.com/Arhelmus" target="_blank" class="twitter" data-title="Twitter"></a></li>
+			</ul><!-- end social -->
+
+			<div class="rights">
+				<p>Copyright © 2015.</p>
+				<p><a href="mailto://arhelmus@gmail.com">arhelmus@gmail.com</a></p>
+			</div><!-- end rights -->
+		</div ><!-- end footer -->
+	</header><!-- end header -->
+
+	<section class="main clearfix">
+
+		<section class="top" style="background: rgba(0, 0, 0, 0) url('img/play-framework-ci/cover.jpg') no-repeat scroll 50% 50% / cover ;">	
+			<div class="wrapper content_header clearfix">
+				<div class="work_nav">
+							
+					<ul class="btn clearfix">
+						<!--<li><a href="#" class="previous" data-title="Previous"></a></li>-->
+						<li><a href="/index.html" class="grid" data-title="All posts"></a></li>
+						<!--<li><a href="#" class="next" data-title="Next"></a></li>-->
+					</ul>							
+					
+				</div><!-- end work_nav -->
+				<h1 class="title">Play framework continuous integration with Wercker.</h1>
+			</div>		
+		</section><!-- end top -->
+
+		<section class="wrapper">
+			<div class="content">
+				<p>Most developer does not think about time that they spend on testing/deployment process. I hope that after reading of this article, you will have more free time for coding, not for deploy. This information will be useful for developers that works on projects with small iterations and frequent releases.</p>
+
+
+				<h2>What is continuous integration?</h2>
+				<p>Continuous Integration is a software development practice where members of a team integrate their work frequently, usually each person integrates at least daily - leading to multiple integrations per day. Each integration is verified by an automated build (including test) to detect integration errors as quickly as possible. Many teams find that this approach leads to significantly reduced integration problems and allows a team to develop cohesive software more rapidly.</p>
+
+				<h2>Choosing of CI tools</h2>
+				<p>During choosing of CI I have some requirements as cloud computing without any local installations, so typical decisions as TeamCity or Jenkins have been omitted. Also I want to use this tool on my personal projects that stored on private GitHub/Bitbucker repositories, so pricing of service was been important. As a result I choosed Wercker becouse it was free for personal use on private repositories, have simple configuration based on docker-like boxes and easily integrates into existing projects.</p>
+
+				<h2>Usage of Wercker</h2>
+				<p>After registering of account, you must create a inner application that will integrate with you Git repository (GitHub and Bitbucket integraion is provided). Wercker will create <code>wercker.yml</code> file in root of your repository, this file must contains your integration script. After each push into attached repository, Wercker will compose docker box based on you yml file and execute actions in pipeline. Also you can add variables into you pipeline from application settings page and use it in your script as <code>$VARIABLE</code>. For easier integration, you can use boxes registry with pre-installed software that will be necessary for project.</p>
+
+				<p>
+					<script src="https://gist.github.com/ArchDev/ff428de7b7340ba88853.js"></script>
+				</p>
+
+
+				<h2>Integration of Play2 application</h2>
+				<p>For integrating of Play application we must have pre-installed JDK and Activator. If your dont wanna write install script himself, you can choose one of already created. There are multiply versions for different JDK: <a href="https://github.com/mitsuse/wercker-box-activator" target="_blank">Oracle JDK 8</a>, <a href="https://github.com/amutake/wercker-box-activator" target="_blank">OpenJDK 7</a>, <a href="https://github.com/anoworl/wercker-box-activator" target="_blank">OpenJDK 6</a>. For current example I used <a href="https://github.com/amutake/wercker-box-activator" target="_blank">OpenJDK 7</a>, but you can easily change it by <code>box</code> parameter.</p>
+
+				<p>Application build will have three easy steps, as compile, testing and build of application archive. After executing of every pipeline action, Wercker will check exit code and continue process if result would been true.</p>
+
+				<p>
+					<script src="https://gist.github.com/ArchDev/d1f9a720fbb937f47ec7.js"></script>
+				</p>
+
+				<h2>Deploy on server</h2>
+				<p>Wercker provides integration with Heroku and OpenShift. But you can deploy application throught SSH without any problems. Anyway you must add deploy target in Wercker settings that will contains auto deploy settings and inner variables. Also if your use Digital Ocean, there are <a href="http://blog.wercker.com/2013/08/22/Simplifying-ssh-based-deployment.html" target="_blank">nice guide</a> written by Wercker team.</p>
+
+				<p>For my project I used script provided in Wercker blog for DO with some improvements. For every deploy I load created archive throught SSH, unzip it and run application in <a href="http://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/" target="_blank">screen</a>.</p>
+
+				<p>
+					<script src="https://gist.github.com/ArchDev/dfa9e650650acd8f95b7.js"></script>
+				</p>
+
+				<h2>Final deploy script</h2>
+
+				<p>
+					<script src="https://gist.github.com/ArchDev/23332b712015baf3bc99.js"></script>
+				</p>
+
+				<p>As result you will seen something <a href="/img/content/wercker.png" target="_blank">like this</a> in your web interface after pushing to your repository. Hope that this article will help you optimize time spended on deploying of new versions. If you have questions or improvements, please contact with me in comment or email.</p>
+
+				<hr>
+
+				<div id="disqus_thread"></div>
+				<script type="text/javascript">
+				    /* * * CONFIGURATION VARIABLES * * */
+				    var disqus_shortname = 'archdev';
+				    
+				    /* * * DON'T EDIT BELOW THIS LINE * * */
+				    (function() {
+				        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+				    })();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+				
+			</div><!-- end content -->
+		</section>
+	</section><!-- end main -->
+	
+</body>
+</html>

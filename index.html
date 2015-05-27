@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<base href="http://archdev.me/"/>
 	<title>Developer blog</title>
 	<meta charset="utf-8">
 	<meta name="author" content="archdev.me">
@@ -18,14 +19,14 @@
 
 	<header>
 		<div class="logo">
-			<a href="index.html"><img src="img/logo.png" title="Arthur Kushka" alt="Arthur Kushka"/></a>
+			<a href="/"><img src="img/logo.png" title="Arthur Kushka" alt="Arthur Kushka"/></a>
 		</div><!-- end logo -->
 
 		<div id="menu_icon"></div>
 		<nav>
 			<ul>
-				<li><a href="/index.html">Blog</a></li>
-				<li><a href="/about.html">About me</a></li>
+				<li><a href="/">Blog</a></li>
+				<li><a href="/about">About me</a></li>
 				<li><a href="http://cvmkr.com/uQ3G" target="_blank">Download CV</a></li>
 			</ul>
 		</nav><!-- end navigation menu -->
@@ -44,7 +45,7 @@
 
 	<section class="main clearfix">
 		<div class="work">
-			<a href="/wercker.html">
+			<a href="/blog/play-framework-ci-wercker">
 				<img src="img/play-framework-ci/block.jpg" class="media" alt="Play framework continuous integration with Wercker"/>
 				<div class="caption">
 					<div class="work_title">
@@ -54,6 +55,30 @@
 			</a>
 		</div>
 	</section><!-- end main -->
+
+	<script type="text/javascript">
+	(function (d, w, c) {
+	    (w[c] = w[c] || []).push(function() {
+	        try {
+	            w.yaCounter29035235 = new Ya.Metrika({id:29035235,
+	                    webvisor:true});
+	        } catch(e) { }
+	    });
+
+	    var n = d.getElementsByTagName("script")[0],
+	        s = d.createElement("script"),
+	        f = function () { n.parentNode.insertBefore(s, n); };
+	    s.type = "text/javascript";
+	    s.async = true;
+	    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+	    if (w.opera == "[object Opera]") {
+	        d.addEventListener("DOMContentLoaded", f, false);
+	    } else { f(); }
+	})(document, window, "yandex_metrika_callbacks");
+	</script>
+	<noscript><div><img src="//mc.yandex.ru/watch/29035235" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+	<!-- /Yandex.Metrika counter -->
 	
 </body>
 </html>

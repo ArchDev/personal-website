@@ -1,0 +1,5 @@
+AddDefaultCharset UTF-8
+RewriteEngine on
+RewriteRule ^/?$ index.html [L]
+RewriteRule ^about/?$ about.html [L]
+RewriteRule ^blog/play-framework-ci-wercker/?$ wercker.html [L]

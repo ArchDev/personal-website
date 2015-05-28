@@ -3,3 +3,4 @@ RewriteEngine on
 RewriteRule ^/?$ index.html [L]
 RewriteRule ^about/?$ about.html [L]
 RewriteRule ^blog/play-framework-ci-wercker/?$ wercker.html [L]
+RewriteRule ^blog/is-slick-async/?$ slick3.html [L]

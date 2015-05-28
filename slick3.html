@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base href="http://archdev.me/"/>
+	<title>“Reactive Slick”. Is it fully asynchronous?</title>
+	<meta charset="utf-8">
+	<meta name="author" content="archdev.me">
+	<meta name="description" content="Month ago Slick released 3.0 version that have proud title as "Reactive". But whether we can implement fully reactive event driven database level for our application?"/>
+	<meta name="keywords" content="reactive slick, is slick reactive, async slick, jdbs async, is slick async">
+	<link rel="icon" type="img/ico" href="img/favicon.ico">
+
+	<meta property="og:image" content="http://archdev.me/img/is-slick-async/block.jpg"/>
+	<link rel="image_src" href="http://archdev.me/img/is-slick-async/block.jpg"/>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+
+	<header>
+		<div class="logo">
+			<a href="/"><img src="img/logo.png" title="Arthur Kushka" alt="Arthur Kushka"/></a>
+		</div><!-- end logo -->
+
+		<div id="menu_icon"></div>
+		<nav>
+			<ul>
+				<li><a href="/">Blog</a></li>
+				<li><a href="/about">About me</a></li>
+				<li><a href="http://cvmkr.com/uQ3G" target="_blank">Download CV</a></li>
+			</ul>
+		</nav><!-- end navigation menu -->
+
+		<div class="footer clearfix">
+			<ul class="social clearfix">
+				<li><a href="https://twitter.com/Arhelmus" target="_blank" class="twitter" data-title="Twitter"></a></li>
+			</ul><!-- end social -->
+
+			<div class="rights">
+				<p>Copyright © 2015.</p>
+				<p><a href="mailto://arhelmus@gmail.com">arhelmus@gmail.com</a></p>
+			</div><!-- end rights -->
+		</div ><!-- end footer -->
+	</header><!-- end header -->
+
+	<section class="main clearfix">
+
+		<section class="top" style="background: rgba(0, 0, 0, 0) url('img/is-slick-async/cover.jpg') no-repeat scroll 50% 50% / cover ;">	
+			<div class="wrapper content_header clearfix">
+				<div class="work_nav">
+							
+					<ul class="btn clearfix">
+						<!--<li><a href="#" class="previous" data-title="Previous"></a></li>-->
+						<li><a href="/" class="grid" data-title="All posts"></a></li>
+						<!--<li><a href="#" class="next" data-title="Next"></a></li>-->
+					</ul>							
+					
+				</div><!-- end work_nav -->
+				<h1 class="title">“Reactive Slick”. Is it fully asynchronous?</h1>
+			</div>		
+		</section><!-- end top -->
+
+		<section class="wrapper">
+			<div class="content">
+				<p>Month ago Slick released 3.0 version that have proud title as "Reactive". But whether we can implement fully reactive event driven database level for our application?</p>
+
+
+				<h2>What is reactive?</h2>
+				<p>As said in <a href="http://www.reactivemanifesto.org/" target="_blank"> reactive manifesto</a> its a responsive, resilent, elastic and message driven systems. In current context, point at which you should pay attention is "message driven".</p>
+
+				<p>
+					<code>
+						Message Driven: Reactive Systems rely on asynchronous message-passing to establish a boundary between components that ensures loose coupling, isolation, location transparency, and provides the means to delegate errors as messages. Employing explicit message-passing enables load management, elasticity, and flow control by shaping and monitoring the message queues in the system and applying back-pressure when necessary. Location transparent messaging as a means of communication makes it possible for the management of failure to work with the same constructs and semantics across a cluster or within a single host. Non-blocking communication allows recipients to only consume resources while active, leading to less system overhead.
+					</code>
+				</p>
+
+				<p>
+					It means that our application should be getting rid from locking of thread during result waiting in all software layers. That means that all operation with delay must be executed as futures that will contains result of evaluation.
+				</p>
+
+				<h2>What is the problem?</h2>
+				<p>At first look, we wouldn't find a locking becouse Slick API provides futured result for database commands, so Slick looking fully reactive, but we need to go deeper. Slick its only wrapper above JDBC drivers. If we look on JDBC standart, we find that its dont support asyncronious requests! Typical decision of this problem, its move jdbc calls into futures or actors, but its not work. As result we will have blocking on socket level that provide thread lock.</p>
+
+				<h2>Is there a solution?</h2>
+				<p>We can use <a href="https://github.com/scalikejdbc/scalikejdbc-async" target="_blank">ScalikeJDBC async drivers</a> that already production-ready for Postgres and MySQL. Also, if we search in "noSQL world", we can find great <a href="https://github.com/ReactiveMongo/ReactiveMongo">Reactive mongo</a> that provides fully async access and have <a href="https://github.com/fehmicansaglam/reactivemongo-extensions" target="_blank">nice library</a> that implement base DAO level and DSL. But recently authors of both libs stop contributing, so this projects may be unsupported soon.</p>
+
+				<div id="disqus_thread"></div>
+				<script type="text/javascript">
+				    /* * * CONFIGURATION VARIABLES * * */
+				    var disqus_shortname = 'archdev';
+				    
+				    /* * * DON'T EDIT BELOW THIS LINE * * */
+				    (function() {
+				        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+				    })();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+				
+			</div><!-- end content -->
+		</section>
+	</section><!-- end main -->
+
+	<!-- Yandex.Metrika counter -->
+	<script type="text/javascript">
+	(function (d, w, c) {
+	    (w[c] = w[c] || []).push(function() {
+	        try {
+	            w.yaCounter29035235 = new Ya.Metrika({id:29035235,
+	                    webvisor:true});
+	        } catch(e) { }
+	    });
+
+	    var n = d.getElementsByTagName("script")[0],
+	        s = d.createElement("script"),
+	        f = function () { n.parentNode.insertBefore(s, n); };
+	    s.type = "text/javascript";
+	    s.async = true;
+	    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+	    if (w.opera == "[object Opera]") {
+	        d.addEventListener("DOMContentLoaded", f, false);
+	    } else { f(); }
+	})(document, window, "yandex_metrika_callbacks");
+	</script>
+	<noscript><div><img src="//mc.yandex.ru/watch/29035235" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+	<!-- /Yandex.Metrika counter -->
+	
+</body>
+</html>
